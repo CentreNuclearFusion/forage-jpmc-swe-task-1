@@ -1,0 +1,91 @@
+From 26a40c932757047b03175df827ed57bb8d99142f Mon Sep 17 00:00:00 2001
+From: CentreNuclearFusion
+ <121597590+CentreNuclearFusion@users.noreply.github.com>
+Date: Mon, 15 Jul 2024 23:37:21 -0400
+Subject: [PATCH 1/2] Terminal Requirement Install
+
+---
+ requirements.txt | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/requirements.txt b/requirements.txt
+index f678e82..62105d5 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1 +1,4 @@
+-python-dateutil==2.8.2
+\ No newline at end of file
++
++python-dateutil==2.8.2
++
++##pip install -r requirements.txt run in terminal/bash
+\ No newline at end of file
+-- 
+2.39.3 (Apple Git-146)
+
+
+From 0092474f4b71feab2f50d0394420a6c3e2869bf3 Mon Sep 17 00:00:00 2001
+From: CentreNuclearFusion
+ <121597590+CentreNuclearFusion@users.noreply.github.com>
+Date: Mon, 15 Jul 2024 23:37:49 -0400
+Subject: [PATCH 2/2] Task One
+
+---
+ client3.py | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/client3.py b/client3.py
+index 3fc09b7..b1ea9bb 100644
+--- a/client3.py
++++ b/client3.py
+@@ -22,12 +22,16 @@ import json
+ import random
+ import urllib.request
+ 
++
+ # Server API URLs
+ QUERY = "http://localhost:8080/query?id={}"
+ 
+ # 500 server request
+ N = 500
+ 
++# getDataPoint function should return correct tuple of stock name, bid_price, ask _price and price
++#price of a stock = average of bid and ask
++#Defined Functions
+ 
+ def getDataPoint(quote):
+     """ Produce all the needed values to generate a datapoint """
+@@ -35,14 +39,16 @@ def getDataPoint(quote):
+     stock = quote['stock']
+     bid_price = float(quote['top_bid']['price'])
+     ask_price = float(quote['top_ask']['price'])
+-    price = bid_price
++    price = (bid_price + ask_price) / 2
+     return stock, bid_price, ask_price, price
+ 
+ 
+ def getRatio(price_a, price_b):
+     """ Get ratio of price_a and price_b """
+     """ ------------- Update this function ------------- """
+-    return 1
++    if (price_b == 0):
++        return
++    return price_a/price_b
+ 
+ 
+ # Main
+@@ -52,8 +58,10 @@ if __name__ == "__main__":
+         quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
+ 
+         """ ----------- Update to get the ratio --------------- """
++        price = {}
+         for quote in quotes:
+             stock, bid_price, ask_price, price = getDataPoint(quote)
++            price[stock] = price
+             print("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
+ 
+-        print("Ratio %s" % getRatio(price, price))
++        print("Ratio %s" % getRatio(price["ABC"], price["DEF"]))
+-- 
+2.39.3 (Apple Git-146)
+
